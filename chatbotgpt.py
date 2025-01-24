@@ -1,14 +1,23 @@
 import streamlit as st
 from openai import OpenAI
 
-st.title("ChatGPT-like clone")
+st.header('st.selectbox')
+
+option = st.selectbox(
+     'Modèle :',
+     ('gpt-3.5-turbo','gpt-3.5-turbo-instruct','gpt-3.5-turbo-1106','gpt-3.5-turbo-0125'))
+
+
+st.subheader('Slider')
+
+max_tokens = st.slider('max tokens ?', 0, 500)
 
 # Set OpenAI API key from Streamlit secrets
 client = OpenAI(api_key=st.secrets["OPENAI_API_KEY"])
 
 # Set a default model
 if "openai_model" not in st.session_state:
-    st.session_state["openai_model"] = "gpt-3.5-turbo"
+    st.session_state["openai_model"] = "{option}"
 
 # Initialize chat history
 if "messages" not in st.session_state:
@@ -36,7 +45,7 @@ if prompt := st.chat_input("What is up?"):
                 for m in st.session_state.messages
             ],
             stream=True,
-            max_tokens = 200,
+            max_tokens = max_tokens,
         )
         response = st.write_stream(stream)
     st.session_state.messages.append({"role": "assistant", "content": response})
