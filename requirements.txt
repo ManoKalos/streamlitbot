@@ -1,2 +1,6 @@
 Streamlit 1.35.0
 openai
+langchain_text_splitters
+langchain_community
+langchain_openai
+faiss-cpu
